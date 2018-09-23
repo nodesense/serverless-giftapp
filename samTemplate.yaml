@@ -28,3 +28,16 @@ Resources:
           Properties:
             Path: /HelloResourceGR
             Method: GET
+  GetMoviesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getMovies.handler
+      Runtime: nodejs6.10
+      CodeUri: ./src/movies
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetMoviesApi:
+          Type: Api
+          Properties:
+            Path: /movies
+            Method: GET

@@ -1,0 +1,23 @@
+{
+  "name": "gift-lambdas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gayathri-rajamanickam4/lambda-cd-gr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gayathri-rajamanickam4/lambda-cd-gr/issues"
+  },
+  "homepage": "https://github.com/gayathri-rajamanickam4/lambda-cd-gr#readme",
+  "dependencies": {
+    "aws-sdk": "^2.320.0"
+  }
+}
