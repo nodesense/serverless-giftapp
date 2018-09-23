@@ -41,3 +41,17 @@ Resources:
           Properties:
             Path: /movies
             Method: GET
+
+  GetMovieFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getMovie.handler
+      Runtime: nodejs6.10
+      CodeUri: ./src/movies
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetMovieApi:
+          Type: Api
+          Properties:
+            Path: /movies/{id}
+            Method: GET

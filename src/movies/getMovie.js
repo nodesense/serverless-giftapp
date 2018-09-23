@@ -2,25 +2,29 @@ const Movie = require('../models/movie');
 
 exports.handler = (event, context, callback) => {
     console.log('getMovies handler called')
+    
+
+    var table = "Movies";
+
+    var year = 2013;
+    var title = "Rush";
+
     var params = {
-        TableName : "Movies",
-        KeyConditionExpression: "#yr = :yyyy",
-        ExpressionAttributeNames:{
-            "#yr": "year"
-        },
-        ExpressionAttributeValues: {
-            ":yyyy": 1985
+        TableName: table,
+        Key:{
+            "year": year,
+            "title": title
         }
     };
 
-    Movie.getMovies(params)
-         .then (movies => {
+    Movie.getMovie(params)
+         .then (movie => {
             var response = {
                 "statusCode": 200,
                 "headers": {
                     "my_header": "my_value"
                 },
-                "body": JSON.stringify(movies),
+                "body": JSON.stringify(movie),
                 "isBase64Encoded": false
             };
             callback(null, response);
