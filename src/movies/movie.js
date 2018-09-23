@@ -9,7 +9,6 @@ AWS.config.update({
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-
 exports.getMovies = (params) => {
     return new Promise((resolve, reject) => {
 

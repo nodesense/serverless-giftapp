@@ -53,5 +53,5 @@ Resources:
         GetMovieApi:
           Type: Api
           Properties:
-            Path: /get-movie/{id}
+            Path: /movies/{id}
             Method: GET
