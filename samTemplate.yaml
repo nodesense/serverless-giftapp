@@ -56,7 +56,7 @@ Resources:
             Path: /movies/{id}
             Method: GET
 
-GetCategoriesFunction:
+  GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: getCategories.handler
