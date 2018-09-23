@@ -10,8 +10,8 @@ Resources:
       CodeUri: ./
       Policies: AmazonDynamoDBFullAccess
       Events:
-        MyTimeApi1:
+        MyTimeApiGR:
           Type: Api
           Properties:
-            Path: /TimeResource1
+            Path: /TimeResourceGR
             Method: GET
