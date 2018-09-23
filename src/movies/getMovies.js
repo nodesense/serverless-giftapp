@@ -1,4 +1,4 @@
-const Movie = require('../models/movie');
+const Movie = require('./movie');
 
 exports.handler = (event, context, callback) => {
     console.log('getMovies handler called')
