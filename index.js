@@ -1,13 +1,3 @@
-// var time = require('time');
-// exports.handler = (event, context, callback) => {
-//     var currentTime = new time.Date(); 
-//     currentTime.setTimezone("America/Los_Angeles");
-//     callback(null, {
-//         statusCode: '200',
-//         body: 'The Bangalore is: ' + currentTime.toString(),
-//     });
-// };
-
 var AWS = require("aws-sdk");
 
 AWS.config.update({
