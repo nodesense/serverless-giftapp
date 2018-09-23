@@ -3,7 +3,6 @@ const Movie = require('./movie');
 exports.handler = (event, context, callback) => {
     console.log('getMovies handler called')
     
-
     var table = "Movies";
 
     var year = 2013;

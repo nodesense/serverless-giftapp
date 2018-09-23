@@ -7,12 +7,15 @@ AWS.config.update({
  // endpoint: "http://localhost:8000"
 });
 
+var TABLE = "Categories";
+
+
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 exports.getCategories = (params) => {
     return new Promise((resolve, reject) => {
 
-            docClient.query(params, function(err, data) {
+            docClient.scan(params, function(err, data) {
                 if (err) {
                     console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
                     reject(err)
@@ -30,9 +33,15 @@ exports.getCategories = (params) => {
 }
 
 
-exports.getCategory = (params) => {
+exports.getCategory = (id) => {
     return new Promise((resolve, reject) => {
-
+            const params = {
+                TableName: TABLE,
+                Key: {
+                    id
+                }
+            }
+ 
             docClient.get(params, function(err, data) {
                 if (err) {
                     console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
@@ -92,11 +101,11 @@ exports.createTable = (params) => {
                 TableName : "Categories",
                 KeySchema: [       
                     { AttributeName: "id", KeyType: "HASH"},  //Partition key
-                    { AttributeName: "name", KeyType: "RANGE" }  //Sort key
+                    //{ AttributeName: "name", KeyType: "RANGE" }  //Sort key
                 ],
                 AttributeDefinitions: [       
                     { AttributeName: "id", AttributeType: "N" },
-                    { AttributeName: "name", AttributeType: "S" }
+                    //{ AttributeName: "name", AttributeType: "S" }
                 ],
                 ProvisionedThroughput: {       
                     ReadCapacityUnits: 10, 

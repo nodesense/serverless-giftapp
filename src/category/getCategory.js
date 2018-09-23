@@ -3,27 +3,16 @@ const CategoryModel = require('./CategoryModel');
 exports.handler = (event, context, callback) => {
     console.log('getCategory handler called')
     
-    var table = "Categories";
+    const id = event.pathParameters.id;
 
-    var id = 1;
-    var name = "Ecommerce";
-
-    var params = {
-        TableName: table,
-        Key:{
-            "id": id,
-            "name": name
-        }
-    };
-
-    CategoryModel.getCategory(params)
-         .then (movie => {
+    CategoryModel.getCategory(id)
+         .then (category => {
             var response = {
                 "statusCode": 200,
                 "headers": {
                     "my_header": "my_value"
                 },
-                "body": JSON.stringify(movie),
+                "body": JSON.stringify(category),
                 "isBase64Encoded": false
             };
             callback(null, response);

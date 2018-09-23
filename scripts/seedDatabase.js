@@ -30,8 +30,6 @@ function seedMovies(fileName) {
     })
 }
 
-
-
 function seedCategories(fileName) {
     return new Promise((resolve, reject) => {
             var allCategories = JSON.parse(fs.readFileSync(fileName, 'utf8'));
