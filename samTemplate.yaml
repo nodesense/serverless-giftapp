@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: getMovies.handler
-      Runtime: nodejs6.10
+      Runtime: nodejs8.10
       CodeUri: ./src/movies
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -46,12 +46,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: getMovie.handler
-      Runtime: nodejs6.10
+      Runtime: nodejs8.10
       CodeUri: ./src/movies
       Policies: AmazonDynamoDBFullAccess
       Events:
         GetMovieApi:
           Type: Api
           Properties:
-            Path: /movies/{id}
+            Path: /get-movie/{id}
             Method: GET
