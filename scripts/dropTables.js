@@ -1,7 +1,8 @@
 const Movie = require('../src/movies/movie');
-
+const CategoryModel = require('../src/category/CategoryModel');
 Promise.all([
-            Movie.dropTable({})
+          //  Movie.dropTable({}),
+            CategoryModel.dropTable()
         ])
         .then ( results => {
             console.log('drop Tables done', results)

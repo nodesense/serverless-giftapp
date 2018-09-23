@@ -1,7 +1,9 @@
 const Movie = require('../src/movies/movie');
+const CategoryModel = require('../src/category/CategoryModel');
 
 Promise.all([
-        Movie.createTable({})
+        // Movie.createTable({})
+        CategoryModel.createTable()
         ])
         .then ( results => {
             console.log('Create Tables done', results)

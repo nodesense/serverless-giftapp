@@ -55,3 +55,31 @@ Resources:
           Properties:
             Path: /movies/{id}
             Method: GET
+
+GetCategoriesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getCategories.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src/category
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetMoviesApi:
+          Type: Api
+          Properties:
+            Path: /categories
+            Method: GET
+
+  GetCategoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getCategory.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src/category
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetMovieApi:
+          Type: Api
+          Properties:
+            Path: /categories/{id}
+            Method: GET
