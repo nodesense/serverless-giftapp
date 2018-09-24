@@ -16,6 +16,8 @@ Globals:
     #  AllowHeaders: "'*'"
     #  AllowOrigin: "'*'"
     Cors: "'http://localhost:3000'"
+    EndpointConfiguration: REGIONAL
+
 
 Resources:
 
