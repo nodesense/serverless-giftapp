@@ -9,7 +9,7 @@ Globals:
 
     Environment:
       Variables:
-        AWS_REGION: ap-southeast-1
+        APP_NAME: GiftApp
 
   Api:
     # enable CORS; to make more specific, change the origin wildcard
