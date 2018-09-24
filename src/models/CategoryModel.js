@@ -2,9 +2,7 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
   region: "ap-southeast-1",
- // "accessKeyId": "", 
- // "secretAccessKey": "",
- // endpoint: "http://localhost:8000"
+ 
 });
 
 var TABLE = "Categories";
