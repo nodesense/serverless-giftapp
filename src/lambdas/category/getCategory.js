@@ -1,26 +1,18 @@
-const CategoryModel = require('../models/CategoryModel');
+const CategoryModel = require('../../models/CategoryModel');
 
 exports.handler = (event, context, callback) => {
-    console.log('getCategories handler called')
-    var params = {
-        TableName : "Categories",
-        // KeyConditionExpression: "#yr = :yyyy",
-        // ExpressionAttributeNames:{
-        //     "#yr": "id"
-        // },
-        // ExpressionAttributeValues: {
-        //     ":yyyy": 1
-        // }
-    };
+    console.log('getCategory handler called')
+    
+    const id = event.pathParameters.id;
 
-    CategoryModel.getCategories(params)
-         .then (categories => {
+    CategoryModel.getCategory(id)
+         .then (category => {
             var response = {
                 "statusCode": 200,
                 "headers": {
                     "my_header": "my_value"
                 },
-                "body": JSON.stringify(categories),
+                "body": JSON.stringify(category),
                 "isBase64Encoded": false
             };
             callback(null, response);

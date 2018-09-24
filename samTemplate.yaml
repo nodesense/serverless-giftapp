@@ -2,20 +2,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Outputs the time
 Resources:
-  TimeFunctionGR:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.handler
-      Runtime: nodejs6.10
-      CodeUri: ./
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        MyTimeApiGR:
-          Type: Api
-          Properties:
-            Path: /TimeResourceGR
-            Method: GET
-  HelloFunctionGR:
+
+  HelloFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: hello.handler
@@ -23,15 +11,31 @@ Resources:
       CodeUri: ./
       Policies: AmazonDynamoDBFullAccess
       Events:
-        HelloTimeApiGR:
+        HelloGetApi:
           Type: Api
           Properties:
-            Path: /HelloResourceGR
+            Path: /hello
             Method: GET
+        HelloPostApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: POST
+        HelloPutApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: PUT
+        HelloDeleteApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: DELETE
+            
   GetMoviesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: movies/getMovies.handler
+      Handler: lambdas/movies/getMovies.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -45,7 +49,7 @@ Resources:
   GetMovieFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: movies/getMovie.handler
+      Handler: lambdas/movies/getMovie.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -59,7 +63,7 @@ Resources:
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: category/getCategories.handler
+      Handler: lambdas/category/getCategories.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -73,7 +77,7 @@ Resources:
   GetCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: category/getCategory.handler
+      Handler: lambdas/category/getCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -84,11 +88,10 @@ Resources:
             Path: /categories/{id}
             Method: GET
 
-
   PostCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: category/postCategory.handler
+      Handler: lambdas/category/postCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -102,7 +105,7 @@ Resources:
   PutCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: category/putCategory.handler
+      Handler: lambdas/category/putCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
@@ -116,7 +119,7 @@ Resources:
   DeleteCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: category/deleteCategory.handler
+      Handler: lambdas/category/deleteCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
