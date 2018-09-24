@@ -7,6 +7,9 @@ Globals:
   Function:
     Runtime: nodejs8.10
 
+    Environment:
+      Variables:
+        AWS_REGION: ap-southeast-1
 
   Api:
     # enable CORS; to make more specific, change the origin wildcard
