@@ -1,4 +1,4 @@
-const Movie = require('./movie');
+const MovieModel = require('../models/MovieModel');
 
 exports.handler = (event, context, callback) => {
     console.log('getMovies handler called')
@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
         }
     };
 
-    Movie.getMovies(params)
+    MovieModel.getMovies(params)
          .then (movies => {
             var response = {
                 "statusCode": 200,

@@ -9,7 +9,6 @@ AWS.config.update({
 
 var TABLE = "Categories";
 
-
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 exports.getCategories = (params) => {

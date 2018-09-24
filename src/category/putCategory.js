@@ -3,9 +3,9 @@ const CategoryModel = require('../models/CategoryModel');
 exports.handler = (event, context, callback) => {
     console.log('putCategory handler called')
      
-    console.log('postCategory handler called')
      
-    const postData = event['body-json'];
+    const postData = event.body;
+
     var response = {
         "statusCode": 200,
         "headers": {

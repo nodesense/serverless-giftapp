@@ -31,9 +31,9 @@ Resources:
   GetMoviesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: getMovies.handler
+      Handler: movies/getMovies.handler
       Runtime: nodejs8.10
-      CodeUri: ./src/movies
+      CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
       Events:
         GetMoviesApi:
@@ -45,9 +45,9 @@ Resources:
   GetMovieFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: getMovie.handler
+      Handler: movies/getMovie.handler
       Runtime: nodejs8.10
-      CodeUri: ./src/movies
+      CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
       Events:
         GetMovieApi:
@@ -73,9 +73,9 @@ Resources:
   GetCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: getCategory.handler
+      Handler: category/getCategory.handler
       Runtime: nodejs8.10
-      CodeUri: ./src/category
+      CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
       Events:
         GetCategoryApi:
