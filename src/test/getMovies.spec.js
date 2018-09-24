@@ -1,4 +1,4 @@
-const getMovies = require('../src/movies/getMovies');
+// const getMovies = require('../src/movies/getMovies');
 
 // getMovies.handler({}, {}, function(err, result) {
 //     console.log('Error ', err);

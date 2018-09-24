@@ -1,4 +1,4 @@
-const getMovie = require('../src/movies/getMovie');
+// const getMovie = require('../src/movies/getMovie');
 
 // describe("getMovie test suites", () => {
 //     it("getMovie", (done) => {
