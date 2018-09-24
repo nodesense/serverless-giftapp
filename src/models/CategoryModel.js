@@ -73,7 +73,13 @@ exports.save = (category) => {
                 reject(err)
             } else {
                 console.log("PutItem succeeded:", data);
-                resolve(data)
+                
+                // resolve(data)
+                exports.getCategory(category.id)
+                        .then ( cat => {
+                            resolve(cat);
+                        })
+
             }
         });
     });

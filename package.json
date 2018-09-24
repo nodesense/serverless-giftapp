@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require ./src/test/environment.js 'src/**/*.spec.js'",
+    "test": "mocha  --timeout 999999 --require ./src/test/environment.js 'src/**/*.spec.js'",
     "drop": "node scripts/dropTables.js",
     "create": "node scripts/createTables.js",
     "seed" : "node scripts/seedDatabase.js"
