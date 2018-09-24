@@ -59,12 +59,12 @@ Resources:
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: getCategories.handler
+      Handler: category/getCategories.handler
       Runtime: nodejs8.10
-      CodeUri: ./src/category
+      CodeUri: ./src
       Policies: AmazonDynamoDBFullAccess
       Events:
-        GetMoviesApi:
+        GetCategoriesApi:
           Type: Api
           Properties:
             Path: /categories
@@ -78,8 +78,51 @@ Resources:
       CodeUri: ./src/category
       Policies: AmazonDynamoDBFullAccess
       Events:
-        GetMovieApi:
+        GetCategoryApi:
           Type: Api
           Properties:
             Path: /categories/{id}
             Method: GET
+
+
+  PostCategoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: category/postCategory.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        PostCategoryApi:
+          Type: Api
+          Properties:
+            Path: /categories
+            Method: POST
+
+  PutCategoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: category/putCategory.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetCategoryApi:
+          Type: Api
+          Properties:
+            Path: /categories
+            Method: PUT
+
+  DeleteCategoryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: category/deleteCategory.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetCategoryApi:
+          Type: Api
+          Properties:
+            Path: /categories/{id}
+            Method: DELETE
