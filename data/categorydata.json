@@ -1,15 +1,15 @@
 [
     {
         "id": 1,
-        "name": "Ecommerce"
+        "title": "Ecommerce"
     },
     {
         "id": 2,
-        "name": "Food"
+        "title": "Food"
     },
     
     {
         "id": 3,
-        "name": "Electronics"
+        "title": "Electronics"
     }
 ]

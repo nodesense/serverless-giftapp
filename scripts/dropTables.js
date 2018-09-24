@@ -1,5 +1,6 @@
-const Movie = require('../src/movies/movie');
-const CategoryModel = require('../src/category/CategoryModel');
+//const Movie = require('../src/movies/movie');
+
+const CategoryModel = require('../src/models/CategoryModel');
 Promise.all([
           //  Movie.dropTable({}),
             CategoryModel.dropTable()
