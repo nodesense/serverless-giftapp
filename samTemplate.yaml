@@ -24,6 +24,7 @@ Resources:
   HelloFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: HelloLambdaFunction
       Handler: hello.handler
       Runtime: nodejs6.10
       CodeUri: ./
@@ -53,10 +54,11 @@ Resources:
   GetMoviesFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: GetMoviesFunction
       Handler: lambdas/movies/getMovies.handler
       Runtime: nodejs8.10
       CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
+      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetMoviesApi:
           Type: Api
@@ -67,10 +69,11 @@ Resources:
   GetMovieFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: GetMovieFunction
       Handler: lambdas/movies/getMovie.handler
       Runtime: nodejs8.10
       CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
+      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetMovieApi:
           Type: Api
@@ -81,10 +84,11 @@ Resources:
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: GetCategoriesFunction
       Handler: lambdas/category/getCategories.handler
       Runtime: nodejs8.10
       CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
+      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetCategoriesApi:
           Type: Api
@@ -95,10 +99,11 @@ Resources:
   GetCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: GetCategoryFunction
       Handler: lambdas/category/getCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
+      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetCategoryApi:
           Type: Api
@@ -109,6 +114,7 @@ Resources:
   PostCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: PostCategoryFunction
       Handler: lambdas/category/postCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -123,6 +129,7 @@ Resources:
   PutCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: PutCategoryFunction
       Handler: lambdas/category/putCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -137,6 +144,7 @@ Resources:
   DeleteCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: DeleteCategoryFunction
       Handler: lambdas/category/deleteCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -147,3 +155,13 @@ Resources:
           Properties:
             Path: /categories/{id}
             Method: DELETE
+
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+         Name: todo_id
+         Type: String
+      ProvisionedThroughput:
+         ReadCapacityUnits: 5
+         WriteCapacityUnits: 5
