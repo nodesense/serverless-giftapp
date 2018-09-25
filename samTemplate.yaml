@@ -23,6 +23,25 @@ Globals:
 
 
 Resources:
+  CognitoUserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      UserPoolName: TestApp
+  CognitoUserPoolClient:    
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+        ClientName: ReactApp
+        GenerateSecret: false
+        UserPoolId: !Ref CognitoUserPool
+  CognitoIdPool:
+    Type: "AWS::Cognito::IdentityPool"
+    Properties:
+      IdentityPoolName: !Ref AWS::StackName
+      CognitoIdentityProviders: 
+        -
+          ClientId: !Ref CognitoUserPoolClient
+          ProviderName: !GetAtt CognitoUserPool.ProviderName
+      AllowUnauthenticatedIdentities: false
 
   HelloFunction:
     Type: AWS::Serverless::Function
