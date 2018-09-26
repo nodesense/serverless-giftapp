@@ -18,7 +18,12 @@ Globals:
     #  AllowMethods: "'*'"
     #  AllowHeaders: "'*'"
     #  AllowOrigin: "'*'"
-    Cors: "'http://localhost:3000'"
+    #Cors: "'http://localhost:3000'"
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+
     EndpointConfiguration: REGIONAL
 
 
@@ -159,3 +164,18 @@ Resources:
           Properties:
             Path: /categories/{id}
             Method: DELETE
+
+  AuthTestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      # FunctionName: DeleteCategoryFunction
+      Handler: lambdas/auth/test.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetCategoryApi:
+          Type: Api
+          Properties:
+            Path: /auth-test
+            Method: GET

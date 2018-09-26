@@ -3,6 +3,7 @@ const CategoryModel = require('../../models/CategoryModel');
 exports.handler = (event, context, callback) => {
     // gateway place every request specific into event
 
+    
     // """{title: "Food"}""
     const categoryData = JSON.parse(event.body);
 
