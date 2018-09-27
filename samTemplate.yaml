@@ -164,3 +164,16 @@ Resources:
           Properties:
             Path: /categories/{id}
             Method: DELETE
+
+
+
+  Categories2Table: 
+   Type: AWS::Serverless::SimpleTable
+   Properties: 
+      TableName: Categories2
+      PrimaryKey: 
+         Name: id
+         Type: String 
+      ProvisionedThroughput: 
+         ReadCapacityUnits: 5 
+         WriteCapacityUnits: 2
