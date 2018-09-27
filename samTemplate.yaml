@@ -217,7 +217,6 @@ Resources:
                 Resource:
                   Fn::Sub: ${CustomAuthorizerFunction.Arn}
 
-
   ApiGateway:
     Type: AWS::Serverless::Api
     Properties:
@@ -242,13 +241,3 @@ Resources:
               authorizerCredentials:
                 Fn::Sub: ${ApiGatewayAuthorizerRole.Arn}
               authorizerResultTtlInSeconds: 60
-              
-        paths:
-          "/somepath":
-            post:
-              security:
-                - CustomAuthorizer: []
-
-              x-amazon-apigateway-integration:
-                uri: 
-                    Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetCategoriesFunction.Arn}/invocations"
