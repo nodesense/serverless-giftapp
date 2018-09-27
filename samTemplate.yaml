@@ -33,9 +33,9 @@ Resources:
   HelloFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: HelloLambdaFunction
+      FunctionName: HelloLambdaFunction
       Handler: hello.handler
-      Runtime: nodejs6.10
+      Runtime: nodejs8.10
       CodeUri: ./
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -63,7 +63,7 @@ Resources:
   GetMoviesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: GetMoviesFunction
+      FunctionName: GetMoviesFunction
       Handler: lambdas/movies/getMovies.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -78,7 +78,7 @@ Resources:
   GetMovieFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: GetMovieFunction
+      FunctionName: GetMovieFunction
       Handler: lambdas/movies/getMovie.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -93,7 +93,7 @@ Resources:
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: GetCategoriesFunction
+      FunctionName: GetCategoriesFunction
       Handler: lambdas/category/getCategories.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -108,7 +108,7 @@ Resources:
   GetCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: GetCategoryFunction
+      FunctionName: GetCategoryFunction
       Handler: lambdas/category/getCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -123,7 +123,7 @@ Resources:
   PostCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: PostCategoryFunction
+      FunctionName: PostCategoryFunction
       Handler: lambdas/category/postCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -138,7 +138,7 @@ Resources:
   PutCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: PutCategoryFunction
+      FunctionName: PutCategoryFunction
       Handler: lambdas/category/putCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -153,7 +153,7 @@ Resources:
   DeleteCategoryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # FunctionName: DeleteCategoryFunction
+      FunctionName: DeleteCategoryFunction
       Handler: lambdas/category/deleteCategory.handler
       Runtime: nodejs8.10
       CodeUri: ./src
@@ -164,18 +164,3 @@ Resources:
           Properties:
             Path: /categories/{id}
             Method: DELETE
-
-  AuthTestFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      # FunctionName: DeleteCategoryFunction
-      Handler: lambdas/auth/test.handler
-      Runtime: nodejs8.10
-      CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        GetCategoryApi:
-          Type: Api
-          Properties:
-            Path: /auth-test
-            Method: GET
