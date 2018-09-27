@@ -166,4 +166,44 @@ Resources:
             Method: DELETE
 
 
+  CognitoAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CognitoAuthorizerFunction
+      Handler: lambdas/authorizers/cognito.handler
+      Runtime: nodejs8.10
+      CodeUri: ./src
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        GetCategoryApi:
+          Type: Api
+          Properties:
+            Path: /auth2
+            Method: POST
+
+  Authorizer: 
+    Type: AWS::ApiGateway::Authorizer
+    Properties: 
+      Name: "DefaultAuthorizer"
+      AuthorizerCredentials: 
+        Fn::GetAtt: 
+          - "LambdaInvocationRole"
+          - "Arn"
+      AuthorizerResultTtlInSeconds: "300"
+      AuthorizerUri: 
+        Fn::Join: 
+          - ""
+          - 
+            - "arn:aws:apigateway:"
+            - Ref: "AWS::Region"
+            - ":lambda:path/2015-03-31/functions/"
+            - Fn::GetAtt: 
+                - "LambdaAuthorizer"
+                - "Arn"
+            - "/invocations"
+      Type: "TOKEN"
+      IdentitySource: "Authorization"
+      RestApiId: 
+        Ref: "RestApi"
+
 
