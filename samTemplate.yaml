@@ -220,7 +220,7 @@ Resources:
   ApiGateway:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: prod
+      StageName: Prod
       DefinitionBody:
         swagger: "2.0"
         info:
