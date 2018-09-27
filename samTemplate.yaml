@@ -241,3 +241,11 @@ Resources:
               authorizerCredentials:
                 Fn::Sub: ${ApiGatewayAuthorizerRole.Arn}
               authorizerResultTtlInSeconds: 60
+
+        paths:
+                  /my-fn:
+                    get:
+                      x-amazon-apigateway-integration:
+                        httpMethod: GET
+                        type: aws_proxy
+                        uri: arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/${GetCategoriesFunction.Arn}/invocations

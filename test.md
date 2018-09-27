@@ -34,6 +34,6 @@
           /my-fn:
             get:
               x-amazon-apigateway-integration:
-                httpMethod: POST
+                httpMethod: GET
                 type: aws_proxy
-                uri: arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:00000000:function:${stageVariables.MyFn}/invocations
+                uri: arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/${GetCategoriesFunction.Arn}/invocations
