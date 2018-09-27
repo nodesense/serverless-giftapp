@@ -165,17 +165,85 @@ Resources:
             Path: /categories/{id}
             Method: DELETE
 
-  Authorizer: 
-    Type: AWS::ApiGateway::Authorizer
-    Properties: 
-      AuthorizerCredentials: 
-        Fn::GetAtt: 
-          - "LambdaInvocationRole"
-          - "Arn"
-      AuthorizerResultTtlInSeconds: "300"
-      AuthorizerUri: "arn:aws:lambda:us-west-2:096708743200:function:Authorizer"
-      Type: "TOKEN"
-      IdentitySource: "Authorization"
-      Name: "DefaultAuthorizer"
-      RestApiId: 
-        Ref: "RestApi"
+  CustomAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: lambdas/authorizers/custom-auth.handler
+      CodeUri: ./src
+      Role:
+        Fn::Sub: ${CustomAuthorizerFunctionRole.Arn}
+
+  CustomAuthorizerFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "lambda.amazonaws.com"
+            Action: 
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  ApiGatewayAuthorizerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "apigateway.amazonaws.com"
+            Action: 
+              - sts:AssumeRole
+      Policies: 
+        - 
+          PolicyName: "InvokeAuthorizerFunction"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action:
+                  - lambda:InvokeAsync
+                  - lambda:InvokeFunction
+                Resource:
+                  Fn::Sub: ${CustomAuthorizerFunction.Arn}
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: "2.0"
+        info:
+          title: 
+            Ref: AWS::StackName
+          description: My API that uses custom authorizer
+          version: 1.0.0
+        securityDefinitions:
+          CustomAuthorizer:
+            type: apiKey
+            name: Authorization
+            in: header
+            x-amazon-apigateway-authtype: custom
+            x-amazon-apigateway-authorizer:
+              type: token
+              authorizerUri:
+                Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CustomAuthorizerFunction.Arn}/invocations
+              authorizerCredentials:
+                Fn::Sub: ${ApiGatewayAuthorizerRole.Arn}
+              authorizerResultTtlInSeconds: 60
+              
+        paths:
+          "/somepath":
+            post:
+              security:
+                - CustomAuthorizer: []
