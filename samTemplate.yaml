@@ -166,29 +166,4 @@ Resources:
             Method: DELETE
 
 
-  AuthenticatorFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: AuthenticatorFunction
-      Handler: lambdas/authenticator/auth.handler
-      Runtime: nodejs8.10
-      CodeUri: ./src
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        GetCategoryApi:
-          Type: Api
-          Properties:
-            Path: /auth
-            Method: GET
 
-
-  Categories2Table: 
-   Type: AWS::Serverless::SimpleTable
-   Properties: 
-      TableName: Categories2
-      PrimaryKey: 
-         Name: id
-         Type: String 
-      ProvisionedThroughput: 
-         ReadCapacityUnits: 5 
-         WriteCapacityUnits: 2
