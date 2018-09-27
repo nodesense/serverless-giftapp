@@ -1,5 +1,7 @@
 const CategoryModel = require('../../models/CategoryModel');
 
+
+
 exports.handler = (event, context, callback) => {
     console.log('getCategory handler called')
     

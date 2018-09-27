@@ -8,6 +8,10 @@
 
 exports.handler =  function(event, context, callback) {
     var token = event.authorizationToken;
+    var accessToken = '';
+    
+    console.log("Token ", token);
+
     switch (token.toLowerCase()) {
         case 'allow':
             callback(null, generatePolicy('user', 'Allow', event.methodArn));

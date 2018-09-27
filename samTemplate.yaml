@@ -165,4 +165,17 @@ Resources:
             Path: /categories/{id}
             Method: DELETE
 
-
+  Authorizer: 
+    Type: AWS::ApiGateway::Authorizer
+    Properties: 
+      AuthorizerCredentials: 
+        Fn::GetAtt: 
+          - "LambdaInvocationRole"
+          - "Arn"
+      AuthorizerResultTtlInSeconds: "300"
+      AuthorizerUri: "arn:aws:lambda:us-west-2:096708743200:function:Authorizer"
+      Type: "TOKEN"
+      IdentitySource: "Authorization"
+      Name: "DefaultAuthorizer"
+      RestApiId: 
+        Ref: "RestApi"
