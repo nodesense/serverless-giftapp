@@ -22,7 +22,8 @@ exports.handler = (event, context, callback) => {
             var response = {
                 "statusCode": 500,
                 "headers": {
-                    "my_header": "my_value"
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
                 },
                 "body": JSON.stringify(err),
                 "isBase64Encoded": false

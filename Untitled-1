@@ -1,27 +1,19 @@
-const CategoryModel = require('../../models/CategoryModel');
+const VendorModel = require('../models/VendorModel');
 
 exports.handler = (event, context, callback) => {
-    console.log('getCategories handler called')
-    var params = {
-        TableName : "Categories",
-        // KeyConditionExpression: "#yr = :yyyy",
-        // ExpressionAttributeNames:{
-        //     "#yr": "id"
-        // },
-        // ExpressionAttributeValues: {
-        //     ":yyyy": 1
-        // }
-    };
+    console.log('getVendor handler called')
+    
+    const id = parseInt(event.pathParameters.id);
 
-    CategoryModel.getCategories(params)
-         .then (categories => {
+    VendorModel.getVendor(id)
+         .then (vendor => {
             var response = {
                 "statusCode": 200,
                 "headers": {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
-                "body": JSON.stringify(categories),
+                "body": JSON.stringify(vendor),
                 "isBase64Encoded": false
             };
             callback(null, response);
@@ -30,8 +22,7 @@ exports.handler = (event, context, callback) => {
             var response = {
                 "statusCode": 500,
                 "headers": {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                     
                 },
                 "body": JSON.stringify(err),
                 "isBase64Encoded": false

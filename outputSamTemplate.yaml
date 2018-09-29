@@ -1,0 +1,409 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates a Cognito User Pool for the Wild Rydes serverless web application
+  workshop
+Resources:
+  CategoriesTable:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: N
+      - AttributeName: title
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      - AttributeName: title
+        KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: Categories
+    Type: AWS::DynamoDB::Table
+  DeleteCategoryFunction:
+    Properties:
+      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      FunctionName: DeleteCategoryFunction
+      Handler: lambdas/category/deleteCategory.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  DeleteCategoryFunctionPermissions:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: DeleteCategoryFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ':'
+          - Ref: AWS::AccountId
+          - ':'
+          - Ref: GiftAppApi
+          - /*
+    Type: AWS::Lambda::Permission
+  GetCategoriesFunction:
+    Properties:
+      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      FunctionName: GetCategoriesFunction
+      Handler: lambdas/category/getCategories.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  GetCategoriesFunctionPermissions:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: GetCategoriesFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ':'
+          - Ref: AWS::AccountId
+          - ':'
+          - Ref: GiftAppApi
+          - /*
+    Type: AWS::Lambda::Permission
+  GetCategoryFunction:
+    Properties:
+      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      FunctionName: GetCategoryFunction
+      Handler: lambdas/category/getCategory.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  GetCategoryFunctionPermissions:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: GetCategoryFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ':'
+          - Ref: AWS::AccountId
+          - ':'
+          - Ref: GiftAppApi
+          - /*
+    Type: AWS::Lambda::Permission
+  GiftAppApi:
+    Properties:
+      Body:
+        info:
+          title: GiftApp
+          version: 1.0.0
+        paths:
+          /categories:
+            get:
+              consumes:
+              - application/json
+              description: get all  categories
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: 200
+                type: aws_proxy
+                uri:
+                  Fn::Join:
+                  - ''
+                  - - 'arn:aws:apigateway:'
+                    - Ref: AWS::Region
+                    - :lambda:path/2015-03-31/functions/
+                    - Fn::GetAtt:
+                      - GetCategoriesFunction
+                      - Arn
+                    - /invocations
+            options:
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Headers:
+                      type: string
+                    Access-Control-Allow-Methods:
+                      type: string
+                    Access-Control-Allow-Origin:
+                      type: string
+                  schema:
+                    $ref: '#/definitions/Empty'
+              x-amazon-apigateway-integration:
+                passthroughBehavior: when_no_match
+                requestTemplates:
+                  application/json: '{"statusCode": 200}'
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+                      method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: '200'
+                type: mock
+            post:
+              consumes:
+              - application/json
+              description: create a new categories
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              security:
+              - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: 200
+                type: aws_proxy
+                uri:
+                  Fn::Join:
+                  - ''
+                  - - 'arn:aws:apigateway:'
+                    - Ref: AWS::Region
+                    - :lambda:path/2015-03-31/functions/
+                    - Fn::GetAtt:
+                      - PostCategoryFunction
+                      - Arn
+                    - /invocations
+            put:
+              consumes:
+              - application/json
+              description: update an existing categories
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              security:
+              - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: PUT
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: 200
+                type: aws_proxy
+                uri:
+                  Fn::Join:
+                  - ''
+                  - - 'arn:aws:apigateway:'
+                    - Ref: AWS::Region
+                    - :lambda:path/2015-03-31/functions/
+                    - Fn::GetAtt:
+                      - PutCategoryFunction
+                      - Arn
+                    - /invocations
+          /categories/{id}:
+            delete:
+              consumes:
+              - application/json
+              description: delete a  category
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              security:
+              - CognitoAuthorizer: []
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: DELETE
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: 200
+                type: aws_proxy
+                uri:
+                  Fn::Join:
+                  - ''
+                  - - 'arn:aws:apigateway:'
+                    - Ref: AWS::Region
+                    - :lambda:path/2015-03-31/functions/
+                    - Fn::GetAtt:
+                      - DeleteCategoryFunction
+                      - Arn
+                    - /invocations
+            get:
+              consumes:
+              - application/json
+              description: get a  category
+              produces:
+              - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              x-amazon-apigateway-integration:
+                contentHandling: CONVERT_TO_TEXT
+                httpMethod: GET
+                passthroughBehavior: when_no_match
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: 200
+                type: aws_proxy
+                uri:
+                  Fn::Join:
+                  - ''
+                  - - 'arn:aws:apigateway:'
+                    - Ref: AWS::Region
+                    - :lambda:path/2015-03-31/functions/
+                    - Fn::GetAtt:
+                      - GetCategoryFunction
+                      - Arn
+                    - /invocations
+            options:
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Headers:
+                      type: string
+                    Access-Control-Allow-Methods:
+                      type: string
+                    Access-Control-Allow-Origin:
+                      type: string
+                  schema:
+                    $ref: '#/definitions/Empty'
+              x-amazon-apigateway-integration:
+                passthroughBehavior: when_no_match
+                requestTemplates:
+                  application/json: '{"statusCode": 200}'
+                responses:
+                  default:
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+                      method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+                      method.response.header.Access-Control-Allow-Origin: '''*'''
+                    statusCode: '200'
+                type: mock
+        securityDefinitions:
+          CognitoAuthorizer:
+            in: header
+            name: Authorization
+            type: apiKey
+            x-amazon-apigateway-authorizer:
+              providerARNs:
+              - arn:aws:cognito-idp:us-west-2:096708743200:userpool/us-west-2_5gJIOEzFy
+              type: cognito_user_pools
+            x-amazon-apigateway-authtype: cognito_user_pools
+        swagger: 2.0
+      Name: GiftApp
+    Type: AWS::ApiGateway::RestApi
+  GiftAppApiDeployment:
+    Properties:
+      Description: Prod deployment for Gift APP API
+      RestApiId:
+        Ref: GiftAppApi
+      StageName: prod
+    Type: AWS::ApiGateway::Deployment
+  PostCategoryFunction:
+    Properties:
+      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      FunctionName: PostCategoryFunction
+      Handler: lambdas/category/postCategory.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  PostCategoryFunctionPermissions:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: PostCategoryFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ':'
+          - Ref: AWS::AccountId
+          - ':'
+          - Ref: GiftAppApi
+          - /*
+    Type: AWS::Lambda::Permission
+  ProductsTable:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: categoryId
+        AttributeType: S
+      - AttributeName: title
+        AttributeType: S
+      KeySchema:
+      - AttributeName: categoryId
+        KeyType: HASH
+      - AttributeName: title
+        KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TableName: Products
+    Type: AWS::DynamoDB::Table
+  PutCategoryFunction:
+    Properties:
+      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      FunctionName: PutCategoryFunction
+      Handler: lambdas/category/putCategory.handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  PutCategoryFunctionPermissions:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: PutCategoryFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+        - ''
+        - - 'arn:aws:execute-api:'
+          - Ref: AWS::Region
+          - ':'
+          - Ref: AWS::AccountId
+          - ':'
+          - Ref: GiftAppApi
+          - /*
+    Type: AWS::Lambda::Permission
+Transform: AWS::Serverless-2016-10-31
