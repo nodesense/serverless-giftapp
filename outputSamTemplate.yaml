@@ -1,19 +1,20 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Creates a Cognito User Pool for the Wild Rydes serverless web application
-  workshop
+Description: GiftApp End Points
+Globals:
+  Function:
+    Environment:
+      Variables:
+        APP_NAME: GiftApp
+    Runtime: nodejs8.10
 Resources:
   CategoriesTable:
     Properties:
       AttributeDefinitions:
       - AttributeName: id
         AttributeType: N
-      - AttributeName: title
-        AttributeType: S
       KeySchema:
       - AttributeName: id
         KeyType: HASH
-      - AttributeName: title
-        KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
@@ -21,7 +22,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   DeleteCategoryFunction:
     Properties:
-      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      CodeUri: s3://codepipeline-serverless-giftapp/bc6d22d14a880cf2833674ea9b9ff879
       FunctionName: DeleteCategoryFunction
       Handler: lambdas/category/deleteCategory.handler
       Policies: AmazonDynamoDBFullAccess
@@ -46,7 +47,7 @@ Resources:
     Type: AWS::Lambda::Permission
   GetCategoriesFunction:
     Properties:
-      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      CodeUri: s3://codepipeline-serverless-giftapp/bc6d22d14a880cf2833674ea9b9ff879
       FunctionName: GetCategoriesFunction
       Handler: lambdas/category/getCategories.handler
       Policies: AmazonDynamoDBFullAccess
@@ -71,7 +72,7 @@ Resources:
     Type: AWS::Lambda::Permission
   GetCategoryFunction:
     Properties:
-      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      CodeUri: s3://codepipeline-serverless-giftapp/bc6d22d14a880cf2833674ea9b9ff879
       FunctionName: GetCategoryFunction
       Handler: lambdas/category/getCategory.handler
       Policies: AmazonDynamoDBFullAccess
@@ -155,7 +156,7 @@ Resources:
                   default:
                     responseParameters:
                       method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-                      method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+                      method.response.header.Access-Control-Allow-Methods: '''*'''
                       method.response.header.Access-Control-Allow-Origin: '''*'''
                     statusCode: '200'
                 type: mock
@@ -315,7 +316,7 @@ Resources:
                   default:
                     responseParameters:
                       method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-                      method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+                      method.response.header.Access-Control-Allow-Methods: '''*'''
                       method.response.header.Access-Control-Allow-Origin: '''*'''
                     statusCode: '200'
                 type: mock
@@ -341,7 +342,7 @@ Resources:
     Type: AWS::ApiGateway::Deployment
   PostCategoryFunction:
     Properties:
-      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      CodeUri: s3://codepipeline-serverless-giftapp/bc6d22d14a880cf2833674ea9b9ff879
       FunctionName: PostCategoryFunction
       Handler: lambdas/category/postCategory.handler
       Policies: AmazonDynamoDBFullAccess
@@ -383,7 +384,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   PutCategoryFunction:
     Properties:
-      CodeUri: s3://codepipeline-serverless-giftapp/f5afbb36b5bf8dbbb17bfe3cdf672c5d
+      CodeUri: s3://codepipeline-serverless-giftapp/bc6d22d14a880cf2833674ea9b9ff879
       FunctionName: PutCategoryFunction
       Handler: lambdas/category/putCategory.handler
       Policies: AmazonDynamoDBFullAccess

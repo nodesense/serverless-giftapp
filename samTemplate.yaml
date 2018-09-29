@@ -4,7 +4,26 @@ Transform: AWS::Serverless-2016-10-31
 Description: Outputs the time
 
 Description:
-  Creates a Cognito User Pool for the Wild Rydes serverless web application workshop
+  GiftApp End Points
+
+Globals:
+
+  Function:
+    Runtime: nodejs8.10
+
+    Environment:
+      Variables:
+        APP_NAME: GiftApp
+
+  # Api:
+  #   Cors:
+  #     AllowMethods: "'*'"
+  #     AllowHeaders: "'*'"
+  #     AllowOrigin: "'*'"
+
+  #   EndpointConfiguration: REGIONAL
+
+
 
 Resources:
 
@@ -145,7 +164,6 @@ Resources:
             - ":"
             - !Ref GiftAppApi
             - "/*"
-  
    
   ProductsTable:
     Type: AWS::DynamoDB::Table
@@ -179,16 +197,11 @@ Resources:
         -
           AttributeName: id
           AttributeType: N
-        -
-          AttributeName: title
-          AttributeType: S
+
       KeySchema:
         -
           AttributeName: id
           KeyType: HASH
-        -
-          AttributeName: title
-          KeyType: RANGE
 
       ProvisionedThroughput: 
         ReadCapacityUnits: 5
@@ -321,7 +334,7 @@ Resources:
                   default:
                     statusCode: "200"
                     responseParameters:
-                      method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+                      method.response.header.Access-Control-Allow-Methods: "'*'"
                       method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
                       method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:
@@ -412,7 +425,7 @@ Resources:
                   default:
                     statusCode: "200"
                     responseParameters:
-                      method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+                      method.response.header.Access-Control-Allow-Methods: "'*'"
                       method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
                       method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:

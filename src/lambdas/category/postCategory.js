@@ -12,6 +12,7 @@ exports.handler = (event, context, callback) => {
 
      CategoryModel.save(categoryData)
      .then ( category => {
+         console.log("category successfully saved ", category)
          var response = {
              "statusCode": 200,
              "headers": {
@@ -24,6 +25,7 @@ exports.handler = (event, context, callback) => {
          callback(null, response);
      })
      .catch ( err => {
+        console.log("category failed to  save ", err)
          var response = {
              "statusCode": 500,
              "headers": {
